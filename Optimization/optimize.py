@@ -12,7 +12,8 @@ import calendar
 import datetime
 
 def optimize():
-
+	#Read in the constraints
+	constraint_file=pd.read_csv("constraints")
 	player_data=pd.read_csv("../Input/DKSalaries_Week2.csv")
 	prob = pulp.LpProblem('NFL', pulp.LpMaximize)
 
