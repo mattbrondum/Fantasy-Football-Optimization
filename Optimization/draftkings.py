@@ -8,6 +8,8 @@ class Player:
         self.GameInfo=projection.GameInfo
         self.projected = projection.AvgPointsPerGame
         self.team = projection.teamAbbrev
+        self.count=0
+        #self.ID=projection.ID
         
 
 class LineupCollection:
@@ -19,7 +21,7 @@ class LineupCollection:
     self.lineups.append(lineup)
 
   
-
+#Possibly for future
 class Constraints:
 
   def __init__(self, contraint_type):
