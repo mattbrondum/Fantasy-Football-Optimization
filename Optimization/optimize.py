@@ -12,7 +12,7 @@ def optimize():
 	print "Reading Data"
 	player_data=pd.read_csv("../Input/DKSalaries.csv")
 	prob = pulp.LpProblem('NFL', pulp.LpMaximize)
-
+	constraint_details=[]
 	players={}
 	total_budget=50000
 	positions=["QB", "RB", "WR", "TE", "DST"]
@@ -72,8 +72,15 @@ def optimize():
 	print "Building Constraints"
 	#Actual stacking constraints
 	for team in team_constraints:
-		#print team_constraints[team]['QB'], team 
-		prob += (team_constraints[team]['QB'] <= team_constraints[team]['WR'] )
+		print str(team_constraints[team]['WR']).replace(' ', '').split('+'), team 
+		print [players[p].name for p in str(team_constraints[team]['WR']).replace(' ', '').split('+') ]
+		print team_constraints[team]['QB']
+		print [players[str(team_constraints[team]['QB'])].name, 'LESS THAN '] 
+
+
+		prob += (team_constraints[team]['QB'] <= team_constraints[team]['WR'])
+	print constraint_details
+	time.sleep(100)
 	for i, position in enumerate(positions):
 		if position =="QB" or position=="DST":
 			prob+= (position_constraints[position]<=1)
@@ -82,12 +89,12 @@ def optimize():
 			prob+= (position_constraints[position]>=min_limits[i])
 			prob+= (position_constraints[position]<=min_limits[i]+1)
 	lineups=[]
-	num_lineups=50
+	num_lineups=2
 	print "Writing Lineup"
 	for i in range(1,num_lineups+1):
 		print 'Iteration %d'% i
 		fileLP="NFL_X%d.lp"%i			
-		#prob.writeLP(fileLP)
+		prob.writeLP(fileLP)
 		optimization_result = prob.solve()
 		#assert optimization_result == pulp.LpStatusOptimal
 
