@@ -71,10 +71,11 @@ def optimize():
 	min_limits=[1, 2, 3, 1, 1]
 	print "Building Constraints"
 	#Actual stacking constraints
-	# for team in team_constraints:
+	for team in team_constraints:
 
 
-	# 	prob += (team_constraints[team]['QB'] - team_constraints[team]['WR']==0)
+		prob += (team_constraints[team]['QB'] <=team_constraints[team]['WR'])
+
 
 	for i, position in enumerate(positions):
 		if position =="QB" or position=="DST":
@@ -143,6 +144,7 @@ def write_output(lineups, filename, prob):
       dfs_ids=[0]*9
       for player in lineup:
       	projected+=player.projected
+      	print player.projected
       	if player.position=='QB':
       		index=0
       	elif player.position=='RB':
@@ -174,7 +176,10 @@ def write_output(lineups, filename, prob):
       	dfs_lineup[index+18]=player.salary
       	#dfs_ids[index]=player.ID
       dfs_lineup[27]=round(projected,2)
+
+
       dfs_lineup[28]=iteration+1
+
       #final_output=names+teams+positions+salaries+[round(sum(projected),2), iteration+1]
       csvwriter.writerow(dfs_lineup)
       #dfswriter.writerow(dfs_ids)
