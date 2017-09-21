@@ -1,4 +1,4 @@
-from pulp import *
+import pulp
 import pandas as pd
 import re , csv
 from draftkings import *
@@ -31,7 +31,7 @@ def optimize():
 	team_constraints={}
 
 
- 	freq_limit=10
+ 	
 	objective_function=''
 	total_cost=''
 	l_collection=LineupCollection()
@@ -44,7 +44,7 @@ def optimize():
 
 	for rownum, row in player_data.iterrows():
 		variable=str('x'+str(rownum))
-		variable = pulp.LpVariable(str(variable), lowBound = 0, upBound = 1, cat= 'Integer')
+		variable = pulp.LpVariable(str(variable), lowBound = 0, upBound = 1, cat= pulp.LpBinary)
 
 		player=Player(row, str(variable))
 		players[str(variable)]=player
@@ -65,7 +65,7 @@ def optimize():
 			team_constraints[player.team]['WR']+=variable
 
 
-	prob += lpSum(objective_function)
+	prob += pulp.lpSum(objective_function)
 	prob += (total_cost<=50000)
 	prob += (num_players==9)
 	min_limits=[1, 2, 3, 1, 1]
@@ -74,7 +74,7 @@ def optimize():
 	for team in team_constraints:
 
 
-		prob += (team_constraints[team]['QB'] - team_constraints[team]['WR'] ==0)
+		prob += (team_constraints[team]['QB'] <= team_constraints[team]['WR'])
 
 	for i, position in enumerate(positions):
 		if position =="QB" or position=="DST":
@@ -84,7 +84,7 @@ def optimize():
 			prob+= (position_constraints[position]>=min_limits[i])
 			prob+= (position_constraints[position]<=min_limits[i]+1)
 	lineups=[]
-	num_lineups=25
+	num_lineups=50
 	print "Writing Lineup"
 	for i in range(1,num_lineups+1):
 		print 'Iteration %d'% i
@@ -99,21 +99,20 @@ def optimize():
 		diversity_constraint=''
 		div_limit=3
 		lineup_values=[]
+		freq_limit=10
 		for var in prob.variables():
-			if 'x' not in str(var):
-				continue
 			if var.varValue:
+				print var, var.varValue
 				player.count+=1
-				frequency_constraint=''
-				frequency_constraint+=player.count*var+var
+				frequency_constraint=(player.count+1)*var 
 				prob+=(frequency_constraint<=freq_limit)
 
 				selected_vars.append(var)
 				player=players[str(var)]
 				#print player.name
 				lineup.append(player)
-
-				var.varValue=0
+			 
+		print "-----"
 			#Force diversity s.t no than two lineups can share more than 3 players
 		diversity_constraint=sum([var for var in selected_vars])				
 		prob+=(diversity_constraint<=div_limit)
