@@ -74,7 +74,7 @@ def optimize():
 	# for team in team_constraints:
 
 
-	# 	prob += (team_constraints[team]['QB'] <= team_constraints[team]['WR'])
+	# 	prob += (team_constraints[team]['QB'] - team_constraints[team]['WR']==0)
 
 	for i, position in enumerate(positions):
 		if position =="QB" or position=="DST":
