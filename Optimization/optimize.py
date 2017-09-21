@@ -72,15 +72,10 @@ def optimize():
 	print "Building Constraints"
 	#Actual stacking constraints
 	for team in team_constraints:
-		print str(team_constraints[team]['WR']).replace(' ', '').split('+'), team 
-		print [players[p].name for p in str(team_constraints[team]['WR']).replace(' ', '').split('+') ]
-		print team_constraints[team]['QB']
-		print [players[str(team_constraints[team]['QB'])].name, 'LESS THAN '] 
 
 
-		prob += (team_constraints[team]['QB'] <= team_constraints[team]['WR'])
-	print constraint_details
-	time.sleep(100)
+		prob += (team_constraints[team]['QB'] - team_constraints[team]['WR'] ==0)
+
 	for i, position in enumerate(positions):
 		if position =="QB" or position=="DST":
 			prob+= (position_constraints[position]<=1)
@@ -89,7 +84,7 @@ def optimize():
 			prob+= (position_constraints[position]>=min_limits[i])
 			prob+= (position_constraints[position]<=min_limits[i]+1)
 	lineups=[]
-	num_lineups=2
+	num_lineups=25
 	print "Writing Lineup"
 	for i in range(1,num_lineups+1):
 		print 'Iteration %d'% i
