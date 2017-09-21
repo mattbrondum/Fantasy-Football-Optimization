@@ -69,7 +69,7 @@ def optimize():
 	prob += (total_cost<=50000)
 	prob += (num_players==9)
 	min_limits=[1, 2, 3, 1, 1]
-	print "Building Constraints"
+	print "Building Constraints,"
 	#Actual stacking constraints
 	for team in team_constraints:
 
