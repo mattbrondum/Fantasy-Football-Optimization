@@ -10,7 +10,7 @@ def optimize():
 	print "Starting optimization model"
 	print "----------------------------------"
 	print "Reading Data"
-	player_data=pd.read_csv("../Input/DKSalaries.csv")
+	player_data=pd.read_csv("../Input/DKSalaries_W3.csv")
 	prob = pulp.LpProblem('NFL', pulp.LpMaximize)
 	constraint_details=[]
 	players={}
@@ -71,10 +71,10 @@ def optimize():
 	min_limits=[1, 2, 3, 1, 1]
 	print "Building Constraints"
 	#Actual stacking constraints
-	for team in team_constraints:
+	# for team in team_constraints:
 
 
-		prob += (team_constraints[team]['QB'] <= team_constraints[team]['WR'])
+	# 	prob += (team_constraints[team]['QB'] <= team_constraints[team]['WR'])
 
 	for i, position in enumerate(positions):
 		if position =="QB" or position=="DST":
@@ -88,8 +88,8 @@ def optimize():
 	print "Writing Lineup"
 	for i in range(1,num_lineups+1):
 		print 'Iteration %d'% i
-		fileLP="NFL_X%d.lp"%i			
-		prob.writeLP(fileLP)
+		#fileLP="NFL_X%d.lp"%i			
+		#prob.writeLP(fileLP)
 		optimization_result = prob.solve()
 		#assert optimization_result == pulp.LpStatusOptimal
 
@@ -99,16 +99,17 @@ def optimize():
 		diversity_constraint=''
 		div_limit=3
 		lineup_values=[]
-		freq_limit=10
+		freq_limit=5
 		for var in prob.variables():
 			if var.varValue:
-				print var, var.varValue
+				print var, var.varValue, players[str(var)].name
+				player=players[str(var)]
 				player.count+=1
-				frequency_constraint=(player.count+1)*var 
-				prob+=(frequency_constraint<=freq_limit)
+				print player.count
+				prob+=(((player.count)+1)*var <=freq_limit), 'cap_%s_%s' %(str(var), str(player.count+1))
 
 				selected_vars.append(var)
-				player=players[str(var)]
+				
 				#print player.name
 				lineup.append(player)
 			 
