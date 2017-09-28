@@ -5,7 +5,7 @@ class Player:
         self.position = projection.Position
         self.name = projection.Name
         self.salary = projection.Salary
-        self.GameInfo=projection.GameInfo
+        #self.GameInfo=projection.GameInfo
         self.projected = projection.AvgPointsPerGame
         self.team = projection.teamAbbrev
         self.count=0

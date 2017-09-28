@@ -18,7 +18,7 @@ def optimize(scenario_parameters):
         print "Starting optimization model"
         print "----------------------------------"
         print "Reading Data"
-        player_data=pd.read_csv("../Input/DKSalaries_W3.csv")
+        player_data=pd.read_csv("../Input/Week4.csv")
         prob = pulp.LpProblem('NFL', pulp.LpMaximize)
         constraint_details=[]
         players={}
@@ -81,7 +81,7 @@ def optimize(scenario_parameters):
                 prob += (team_constraints[team]['QB'] <=team_constraints[team]['WR'])
         elif stacking=='Forced Unconstrained':
             for team in team_constraints:
-                prob += (team_constraints[team]['QB']*(team_constraints[team]['WR'])==0)
+                pass
         else:
             print "NONE"
 
