@@ -18,7 +18,7 @@ def optimize(scenario_parameters):
         print "Starting optimization model"
         print "----------------------------------"
         print "Reading Data"
-        player_data=pd.read_csv("../Input/Week4.csv")
+        player_data=pd.read_csv("../Input/Week4Sun.csv")
         prob = pulp.LpProblem('NFL', pulp.LpMaximize)
         constraint_details=[]
         players={}
