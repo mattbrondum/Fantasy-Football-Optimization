@@ -1,0 +1,11 @@
+Default:	Diversity Limit	3
+	Player position limt	
+		
+0	Default	
+1	Team Stacking	2 of same team
+		
+		
+		
+Code	Lineup Choices	Number of Lineups
+1	Team Stacking	50
+0	Default	30
