@@ -1,0 +1,2 @@
+# This is a new file and placeholder to push nflscrapR data & manipulations on same.
+# Can move/refactor once we figure out what (if anything) is useful about it.
