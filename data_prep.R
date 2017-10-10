@@ -28,7 +28,7 @@ left join team t on t.gid = o.gid and t.tname = o.team
 where 1=1
   and wk > 5 
   and wk < 18
-  and pos1 = "QB"
+  and pos1 = "RB"
   and fp3 > 7
 ),
 
@@ -129,14 +129,40 @@ group by 1,2,3,4,5,6,7,8,9,10
         ,21,22,23,24,25,26,27,28
 order by pd.player, pd.gid
       ')
-
+hist(data$l5g_avg_recy)
 # fix cond 
 data$cond <-as.numeric(data$cond)
 
+#QB columns to remove
+drops <- c("tdr","ry","temp","py","tdp","year","wk","gid","team","opponent","player",
+           "l5g_avg_trg","l5g_avg_tdr","l5g_avg_ra","l5g_avg_ry",
+           "l5g_avg_recy","l5g_avg_tdr","l5g_pct_ryb","l5g_pct_recyb",
+           "l5g_avg_tdrec")
+write.table(data[ , !(names(data) %in% drops)], "C:\\Users\\Vicky\\Desktop\\Draft Kings\\Github_DFS_Scripts\\DFS_Scripts\\Data\\qbdata.csv", sep=",")
+
+#WR columns to remove
+drops <- c("year","wk","gid","team","opponent","player","py","ry","tdp","tdr","temp",
+           "l5g_avg_tdr","l5g_avg_ra","l5g_avg_ry",
+           "l5g_avg_tdr","l5g_pct_ryb",
+           "l5g_avg_tdrec","l5g_avg_ints","l5g_avg_tdp","l5g_avg_pa","l5g_avg_py",
+           "l5g_avg_pc","l5g_avg_pyb","l5g_avg_sacks","l5g_avg_fuml")
+write.table(data[ , !(names(data) %in% drops)], "C:\\Users\\Vicky\\Desktop\\Draft Kings\\Github_DFS_Scripts\\DFS_Scripts\\Data\\wrdata.csv", sep=",")
+
+#TE columns to remove
+drops <- c("year","wk","gid","team","opponent","player","py","ry","tdp","tdr","temp",
+           "l5g_pct_ryb","l5g_avg_ints","l5g_avg_tdp",
+           "l5g_avg_pa","l5g_avg_py","l5g_avg_pc","l5g_avg_pyb","l5g_avg_sacks","l5g_avg_fuml")
+write.table(data[ , !(names(data) %in% drops)], "C:\\Users\\Vicky\\Desktop\\Draft Kings\\Github_DFS_Scripts\\DFS_Scripts\\Data\\tedata.csv", sep=",")
 
 
-fit <- lm(fpts~ l5g_avg_tdp + l5g_avg_py + l5g_oppdef_pya + l5g_pct_pyb, data)
-summary(fit)
+#RB columns to remove
+drops <- c("year","wk","gid","team","opponent","player","py","ry","tdp","tdr","temp",
+           "l5g_avg_ints","l5g_avg_tdp","l5g_avg_pa","l5g_avg_py","l5g_avg_pc","l5g_avg_pyb",
+           "l5g_avg_sacks","l5g_avg_fuml")
+write.table(data[ , !(names(data) %in% drops)], "C:\\Users\\Vicky\\Desktop\\Draft Kings\\Github_DFS_Scripts\\DFS_Scripts\\Data\\rbdata.csv", sep=",")
+
+
+
 
 # Find columns that can be removed due to linear separation
 linearcombos <- findLinearCombos(data[,c(7:33)])
@@ -162,8 +188,8 @@ for (i in names(qbdata3[,c(3:ncol(qbdata3))]))
   {  x <- paste(x, " + ", i)  }
 formula <- as.character(paste("fpts ~ ",x))
 
-pynn <- neuralnet(py ~ l5g_avg_pa + l5g_avg_py + l5g_oppdef_ptsa + l5g_oppdefpya + l5g_oppdefrya,
-                  qbdata, hidden = 3, act.fct = 'tanh')
+pynn <- neuralnet(fpts ~ cond + l5g_avg_pa + l5g_avg_py + l5g_oppdef_ptsa + l5g_oppdef_pya + l5g_oppdef_rya,
+                  data, hidden = 4, act.fct = 'tanh')
 
 qbnn <- neuralnet(formula, 
                   qbdata3, 
@@ -175,12 +201,16 @@ res <- as.data.frame(results$net.result, col.names = "fpts")
 colnames(res) <- "fpts"
 res <- predict(qbfptsproc, res, type = "response")
 
+set.seed(450)
+cv.error <- NULL
+k <- 10
 
-plot(qbdata$fpts, res$fpts)
 
 
-
-brady <- subset(data, player =="TB-2300")#,  select=c(ID, Weight))
+plot(data$ry, data$fpts)
+fit <- lm(fpts ~  py, data = data)
+summary(fit)
+brady <- subset(data, player =="TB-2300")
 
 brd <- sqldf('
 select sum(o.py)
@@ -190,10 +220,16 @@ where o.py > 0 and o.player != "MC-0700" and o.player != "TB-2300" and (g.v = "N
              ')
 
 
-# export data to txt
-write.table(data, "C:\\Users\\Vicky\\Desktop\\mydata.csv", sep=",")
-fit <- lm(fpts ~ ., data[,c(7:ncol(data))])
-summary(fit)
+
+
+
+
+
+
+
+
+
+
 
 
 
