@@ -12,6 +12,7 @@ class Player:
         self.actual=projection.Actual 
         if "OwnershipTier" in projection:
           self.OwnershipTier=projection.OwnershipTier
+          self.OwnershipPercent=float(projection.Ownership.strip("%"))
         #self.ID=projection.ID
         
 

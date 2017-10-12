@@ -12,14 +12,21 @@ def optimize(scenario_parameters):
     for scenario in sorted(scenario_parameters.iterkeys()):
         scenario_name=scenario
         num_lineups=scenario_parameters[scenario]['Lineups']
+        freq_limit=scenario_parameters[scenario]["Frequency"]
         overlap=scenario_parameters[scenario]['Overlap']
         stacking=scenario_parameters[scenario]['Stacking']
         ownership_limit=scenario_parameters[scenario]['Ownership']
+        objective_type=scenario_parameters[scenario]['Objective']
+        
         print "Starting optimization model"
         print "----------------------------------"
         print "Reading Data!"
         player_data=pd.read_csv("../Input/Week3Ownership.csv")
-        prob = pulp.LpProblem('NFL', pulp.LpMaximize)
+        print objective_type
+        if "Maximize" in objective_type:
+        	prob = pulp.LpProblem('NFL', pulp.LpMaximize)
+        else:
+        	prob = pulp.LpProblem('NFL', pulp.LpMinimize)
         constraint_details=[]
         players={}
         total_budget=50000
@@ -47,9 +54,10 @@ def optimize(scenario_parameters):
         print "Building logic"
         ownership_constraints={}
         ownership_constraints['L']=''
+        expected_points_constraint=''
         for rownum, row in player_data.iterrows():
             variable=str('x'+str(rownum))
-            variable = pulp.LpVariable(str(variable), lowBound = 0, upBound = 1, cat= pulp.LpBinary)
+            variable = pulp.LpVariable(str(variable),cat= 'Binary')
 
             player=Player(row, str(variable))
             players[str(variable)]=player
@@ -59,7 +67,11 @@ def optimize(scenario_parameters):
 
             player_points = player.projected*variable
             total_cost+= player.salary*variable
-            objective_function += player_points
+            if "Points" in objective_type:
+            	objective_function += player_points
+            else:#Must be an ownership type
+            	objective_function += player.OwnershipPercent*variable
+            	expected_points_constraint+=player_points
              
             position_constraints[player.position]+=variable
             #Team Stacking Organization
@@ -73,6 +85,11 @@ def optimize(scenario_parameters):
             	ownership_constraints["L"]+=variable
 
         prob += pulp.lpSum(objective_function)
+        
+        if "Ownership" in objective_type:
+        	print "added here"
+        	prob+=(expected_points_constraint>=100.0)
+
         prob += (total_cost<=50000)
         prob += (num_players==9)
         min_limits=[1, 2, 3, 1, 1]
@@ -108,8 +125,14 @@ def optimize(scenario_parameters):
             print 'Iteration %d'% i
             #fileLP="NFL_X%d.lp"%i          
             #prob.writeLP(fileLP)
-            optimization_result = prob.solve()
-            #assert optimization_result == pulp.LpStatusOptimal
+            #optimization_result=pulp.actualSolve(prob)
+            #solver=pulp.GUROBI()
+            #prob.setSolver(solver)
+            optimization_result = prob.solve(pulp.GLPK(msg=False))
+            print "WOAHHH", pulp.LpStatusOptimal, optimization_result
+            if optimization_result!=1:
+            	print "Solutions are infeasible, move on to next scneario"
+            	break
 
             lineup=[]
             selected_vars=[]
@@ -117,10 +140,10 @@ def optimize(scenario_parameters):
             diversity_constraint=''
             div_limit=overlap
             lineup_values=[]
-            freq_limit=5
+            freq_limit=freq_limit
             for var in prob.variables():
                 if var.varValue:
-                    #print var, var.varValue, players[str(var)].name
+                    print var, var.varValue, players[str(var)].name
                     player=players[str(var)]
                     player.count+=1
                     #print player.count
@@ -171,7 +194,7 @@ def write_output(lineups, scenario_parameters, scenario, prob):
       for player in lineup:
         projected+=player.projected
         actual+=player.actual
-        #print player.projected
+
 
         if player.position=='QB':
             index=0
@@ -198,10 +221,12 @@ def write_output(lineups, scenario_parameters, scenario, prob):
                 index=7
         else:
             index=8
+
         dfs_lineup[index]=player.name
         dfs_lineup[index+9]=player.team
         dfs_lineup[index+18]=player.salary
         #dfs_ids[index]=player.ID
+
       dfs_lineup[27]=round(projected,2)
 
 
@@ -221,8 +246,11 @@ for scenario, row in df.iterrows():
     Title=row['Title']
     scenario_parameters[Title]={}
     scenario_parameters[Title]['Lineups']=row['Lineups']
+    scenario_parameters[Title]["Frequency"]=row[2]
     scenario_parameters[Title]['Overlap']=row[3]
     scenario_parameters[Title]['Stacking']=row[4]
     scenario_parameters[Title]["Ownership"]=row[5]
+    scenario_parameters[Title]["Objective"]=row[6]
+    
 optimize(scenario_parameters)
  
