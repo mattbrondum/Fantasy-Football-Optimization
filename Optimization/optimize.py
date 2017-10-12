@@ -14,11 +14,11 @@ def optimize(scenario_parameters):
         num_lineups=scenario_parameters[scenario]['Lineups']
         overlap=scenario_parameters[scenario]['Overlap']
         stacking=scenario_parameters[scenario]['Stacking']
-
+        ownership_limit=scenario_parameters[scenario]['Ownership']
         print "Starting optimization model"
         print "----------------------------------"
         print "Reading Data!"
-        player_data=pd.read_csv("../Input/Week4Sun.csv")
+        player_data=pd.read_csv("../Input/Week3Ownership.csv")
         prob = pulp.LpProblem('NFL', pulp.LpMaximize)
         constraint_details=[]
         players={}
@@ -45,7 +45,8 @@ def optimize(scenario_parameters):
             team_constraints[team]['QB']=''
             team_constraints[team]['WR']=''
         print "Building logic"
-
+        ownership_constraints={}
+        ownership_constraints['L']=''
         for rownum, row in player_data.iterrows():
             variable=str('x'+str(rownum))
             variable = pulp.LpVariable(str(variable), lowBound = 0, upBound = 1, cat= pulp.LpBinary)
@@ -68,6 +69,8 @@ def optimize(scenario_parameters):
             if player.position=='WR':
                 team_constraints[player.team]['WR']+=variable
 
+            if player.OwnershipTier=="L":
+            	ownership_constraints["L"]+=variable
 
         prob += pulp.lpSum(objective_function)
         prob += (total_cost<=50000)
@@ -93,7 +96,13 @@ def optimize(scenario_parameters):
                 prob+= (position_constraints[position]>=min_limits[i])
                 prob+= (position_constraints[position]<=min_limits[i]+1)
         lineups=[]
- 
+        print "limit is ", ownership_limit, type(ownership_limit)
+        if ownership_limit !="None":
+        	print "adding ownership constraints"
+        	prob+=(ownership_constraints["L"]<=ownership_limit)
+        	prob+=(ownership_constraints["L"]>=ownership_limit)
+        	#print ownership_constraints["L"]
+ 		    #prob+=(ownership_constraints["L"]=ownership_limit)
         print "Writing Lineup"
         for i in range(1,num_lineups+1):
             print 'Iteration %d'% i
@@ -136,7 +145,7 @@ def optimize(scenario_parameters):
 def write_output(lineups, scenario_parameters, scenario, prob):
     #Writes lineups to csv
     filename='MegaPredictions.csv'
-    print scenario , "HERE"
+    
     time.sleep(1)
     if scenario=='Scenario1':
         header_names=['QB', 'RB', 'RB', 'WR', 'WR', 'WR', 'TE', 'FLEX', 'DST']
@@ -144,7 +153,7 @@ def write_output(lineups, scenario_parameters, scenario, prob):
         salary_list=[header+' Salary ' for header in header_names]
         target=open(filename, 'w')
         #dfs_target=open('Dfslineups.csv', 'w')
-        headers=header_names+team_list+salary_list+['Projected Value', 'Scenario', 'Iteration'] 
+        headers=header_names+team_list+salary_list+['Projected Value', 'Scenario', 'Iteration', 'Actual'] 
         csvwriter=csv.writer(target)
         csvwriter.writerow(headers)  
     #dfswriter=csv.writer(dfs_target)
@@ -154,12 +163,16 @@ def write_output(lineups, scenario_parameters, scenario, prob):
         csvwriter=csv.writer(target)
 
     for iteration, lineup in enumerate(lineups):
-      dfs_lineup=['']*30
+      print scenario , "HERE", iteration
+      dfs_lineup=['']*31
       projected=0.0
+      actual=0.0
       dfs_ids=[0]*9
       for player in lineup:
         projected+=player.projected
+        actual+=player.actual
         #print player.projected
+
         if player.position=='QB':
             index=0
         elif player.position=='RB':
@@ -185,7 +198,6 @@ def write_output(lineups, scenario_parameters, scenario, prob):
                 index=7
         else:
             index=8
-        print scenario
         dfs_lineup[index]=player.name
         dfs_lineup[index+9]=player.team
         dfs_lineup[index+18]=player.salary
@@ -195,7 +207,7 @@ def write_output(lineups, scenario_parameters, scenario, prob):
 
       dfs_lineup[28]=scenario
       dfs_lineup[29]=iteration+1
-
+      dfs_lineup[30]=round(actual,2)
 
       #final_output=names+teams+positions+salaries+[round(sum(projected),2), iteration+1]
       csvwriter.writerow(dfs_lineup)
@@ -211,5 +223,6 @@ for scenario, row in df.iterrows():
     scenario_parameters[Title]['Lineups']=row['Lineups']
     scenario_parameters[Title]['Overlap']=row[3]
     scenario_parameters[Title]['Stacking']=row[4]
+    scenario_parameters[Title]["Ownership"]=row[5]
 optimize(scenario_parameters)
  

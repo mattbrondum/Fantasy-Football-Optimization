@@ -9,6 +9,9 @@ class Player:
         self.projected = projection.AvgPointsPerGame
         self.team = projection.teamAbbrev
         self.count=0
+        self.actual=projection.Actual 
+        if "OwnershipTier" in projection:
+          self.OwnershipTier=projection.OwnershipTier
         #self.ID=projection.ID
         
 
