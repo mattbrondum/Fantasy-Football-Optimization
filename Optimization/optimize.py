@@ -6,7 +6,7 @@ from draftkings import *
 
 import time
 
-def optimize(scenario_parameters):
+def optimize(scenario_parameters, projection_filepath,week_num):
 
 
     for scenario in sorted(scenario_parameters.iterkeys()):
@@ -21,7 +21,7 @@ def optimize(scenario_parameters):
         print "Starting optimization model"
         print "----------------------------------"
         print "Reading Data!"
-        player_data=pd.read_csv("../Input/Week3Ownership.csv")
+        player_data=pd.read_csv(projection_filepath)
         print objective_type
         if "Maximize" in objective_type:
         	prob = pulp.LpProblem('NFL', pulp.LpMaximize)
@@ -80,9 +80,9 @@ def optimize(scenario_parameters):
 
             if player.position=='WR':
                 team_constraints[player.team]['WR']+=variable
-
-            if player.OwnershipTier=="L":
-            	ownership_constraints["L"]+=variable
+            if ownership_limit != "None":
+                if player.OwnershipTier=="L":
+                	ownership_constraints["L"]+=variable
 
         prob += pulp.lpSum(objective_function)
         
@@ -122,14 +122,14 @@ def optimize(scenario_parameters):
  		    #prob+=(ownership_constraints["L"]=ownership_limit)
         print "Writing Lineup"
         for i in range(1,num_lineups+1):
-            print 'Iteration %d'% i
+            #print 'Iteration %d'% i
             #fileLP="NFL_X%d.lp"%i          
             #prob.writeLP(fileLP)
             #optimization_result=pulp.actualSolve(prob)
             #solver=pulp.GUROBI()
             #prob.setSolver(solver)
             optimization_result = prob.solve(pulp.GLPK(msg=False))
-            print "WOAHHH", pulp.LpStatusOptimal, optimization_result
+            #print "WOAHHH", pulp.LpStatusOptimal, optimization_result
             if optimization_result!=1:
             	print "Solutions are infeasible, move on to next scneario"
             	break
@@ -143,7 +143,7 @@ def optimize(scenario_parameters):
             freq_limit=freq_limit
             for var in prob.variables():
                 if var.varValue:
-                    print var, var.varValue, players[str(var)].name
+                    #print var, var.varValue, players[str(var)].name
                     player=players[str(var)]
                     player.count+=1
                     #print player.count
@@ -154,7 +154,7 @@ def optimize(scenario_parameters):
                     #print player.name
                     lineup.append(player)
                  
-            print "-----"
+            #print "-----"
                 #Force diversity s.t no than two lineups can share more than 3 players
             diversity_constraint=sum([var for var in selected_vars])                
             prob+=(diversity_constraint<=div_limit)
@@ -163,11 +163,11 @@ def optimize(scenario_parameters):
      
  
 
-        write_output(lineups, scenario_parameters, scenario,prob)
+        write_output(lineups, scenario_parameters, scenario,prob,week_num)
 
-def write_output(lineups, scenario_parameters, scenario, prob):
+def write_output(lineups, scenario_parameters, scenario, prob,week_num):
     #Writes lineups to csv
-    filename='MegaPredictions.csv'
+    filename='PredictionsWeek%d.csv' % week_num
     
     time.sleep(1)
     if scenario=='Scenario1':
@@ -186,7 +186,7 @@ def write_output(lineups, scenario_parameters, scenario, prob):
         csvwriter=csv.writer(target)
 
     for iteration, lineup in enumerate(lineups):
-      print scenario , "HERE", iteration
+      #print scenario , "HERE", iteration
       dfs_lineup=['']*31
       projected=0.0
       actual=0.0
@@ -240,7 +240,7 @@ def write_output(lineups, scenario_parameters, scenario, prob):
     target.close()
 
 #Initializiation
-df=pd.read_excel('../Input/Optimization Parameters Table Demo.xlsx')
+df=pd.read_excel('../Input/Optimization Parameters Table Demo2.xlsx')
 scenario_parameters={}
 for scenario, row in df.iterrows():
     Title=row['Title']
@@ -251,6 +251,15 @@ for scenario, row in df.iterrows():
     scenario_parameters[Title]['Stacking']=row[4]
     scenario_parameters[Title]["Ownership"]=row[5]
     scenario_parameters[Title]["Objective"]=row[6]
-    
-optimize(scenario_parameters)
+# week_num=3
+# projection_filepath="../Input/LineupCO/Week%d_LU.csv" % week_num
+
+# optimize(scenario_parameters, projection_filepath, week_num)
+
+##if for loop
+
+for i in range(1, 6):
+    print "on week %d" % i 
+    projection_filepath="../Input/LineupCO/Week%d_LU.csv" % i
+    optimize(scenario_parameters, projection_filepath, i)
  
