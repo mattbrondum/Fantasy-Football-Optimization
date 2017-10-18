@@ -74,11 +74,13 @@ def optimize(date):
 
 
 		optimization_result = prob.solve()
-		assert optimization_result == pulp.LpStatusOptimal
+		if optimization_result != pulp.LpStatusOptimal:
+			print "finished abrupty"
+			break
 		lineup=[]
 		selected_vars=[]
 		diversity_constraint=''
-		freq_limit=10
+		freq_limit=5
 		div_limit=3
 		lineup_values=[]
 		for var in prob.variables():
