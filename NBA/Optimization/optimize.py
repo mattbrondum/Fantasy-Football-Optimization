@@ -63,9 +63,8 @@ def optimize(date):
 
 	#additional Constraint
 	diversity_constraint=''
-	div_limit=3  
 	lineups=[]
-	iterations=50
+	iterations=100
 	for i in range(1,iterations+1):
 
 		print 'Iteration %d'% i
@@ -80,7 +79,7 @@ def optimize(date):
 		lineup=[]
 		selected_vars=[]
 		diversity_constraint=''
-		freq_limit=5
+		freq_limit=7
 		div_limit=3
 		lineup_values=[]
 		for var in prob.variables():

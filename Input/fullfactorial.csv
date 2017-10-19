@@ -1,55 +1,1 @@
-"Scenario","Lineups","Frequency","Overlap","Stacking","Ownership","ObjectiveFunction"
-"Scenario1","25","0.05","2","None","None","Maximize Points"
-"Scenario2","25","0.05","2","QB needs WR","None","Maximize Points"
-"Scenario3","25","0.05","3","None","None","Maximize Points"
-"Scenario4","25","0.05","3","QB needs WR","None","Maximize Points"
-"Scenario5","25","0.05","4","None","None","Maximize Points"
-"Scenario6","25","0.05","4","QB needs WR","None","Maximize Points"
-"Scenario7","25","0.1","2","None","None","Maximize Points"
-"Scenario8","25","0.1","2","QB needs WR","None","Maximize Points"
-"Scenario9","25","0.1","3","None","None","Maximize Points"
-"Scenario10","25","0.1","3","QB needs WR","None","Maximize Points"
-"Scenario11","25","0.1","4","None","None","Maximize Points"
-"Scenario12","25","0.1","4","QB needs WR","None","Maximize Points"
-"Scenario13","25","0.25","2","None","None","Maximize Points"
-"Scenario14","25","0.25","2","QB needs WR","None","Maximize Points"
-"Scenario15","25","0.25","3","None","None","Maximize Points"
-"Scenario16","25","0.25","3","QB needs WR","None","Maximize Points"
-"Scenario17","25","0.25","4","None","None","Maximize Points"
-"Scenario18","25","0.25","4","QB needs WR","None","Maximize Points"
-"Scenario19","50","0.05","2","None","None","Maximize Points"
-"Scenario20","50","0.05","2","QB needs WR","None","Maximize Points"
-"Scenario21","50","0.05","3","None","None","Maximize Points"
-"Scenario22","50","0.05","3","QB needs WR","None","Maximize Points"
-"Scenario23","50","0.05","4","None","None","Maximize Points"
-"Scenario24","50","0.05","4","QB needs WR","None","Maximize Points"
-"Scenario25","50","0.1","2","None","None","Maximize Points"
-"Scenario26","50","0.1","2","QB needs WR","None","Maximize Points"
-"Scenario27","50","0.1","3","None","None","Maximize Points"
-"Scenario28","50","0.1","3","QB needs WR","None","Maximize Points"
-"Scenario29","50","0.1","4","None","None","Maximize Points"
-"Scenario30","50","0.1","4","QB needs WR","None","Maximize Points"
-"Scenario31","50","0.25","2","None","None","Maximize Points"
-"Scenario32","50","0.25","2","QB needs WR","None","Maximize Points"
-"Scenario33","50","0.25","3","None","None","Maximize Points"
-"Scenario34","50","0.25","3","QB needs WR","None","Maximize Points"
-"Scenario35","50","0.25","4","None","None","Maximize Points"
-"Scenario36","50","0.25","4","QB needs WR","None","Maximize Points"
-"Scenario37","75","0.05","2","None","None","Maximize Points"
-"Scenario38","75","0.05","2","QB needs WR","None","Maximize Points"
-"Scenario39","75","0.05","3","None","None","Maximize Points"
-"Scenario40","75","0.05","3","QB needs WR","None","Maximize Points"
-"Scenario41","75","0.05","4","None","None","Maximize Points"
-"Scenario42","75","0.05","4","QB needs WR","None","Maximize Points"
-"Scenario43","75","0.1","2","None","None","Maximize Points"
-"Scenario44","75","0.1","2","QB needs WR","None","Maximize Points"
-"Scenario45","75","0.1","3","None","None","Maximize Points"
-"Scenario46","75","0.1","3","QB needs WR","None","Maximize Points"
-"Scenario47","75","0.1","4","None","None","Maximize Points"
-"Scenario48","75","0.1","4","QB needs WR","None","Maximize Points"
-"Scenario49","75","0.25","2","None","None","Maximize Points"
-"Scenario50","75","0.25","2","QB needs WR","None","Maximize Points"
-"Scenario51","75","0.25","3","None","None","Maximize Points"
-"Scenario52","75","0.25","3","QB needs WR","None","Maximize Points"
-"Scenario53","75","0.25","4","None","None","Maximize Points"
-"Scenario54","75","0.25","4","QB needs WR","None","Maximize Points"
+Scenario,Lineups,Frequency,Overlap,Stacking,Ownership,ObjectiveFunctionScenario1,1,5,2,None,None,Maximize PointsScenario2,1,5,2,QB needs WR,None,Maximize PointsScenario3,1,5,3,None,None,Maximize PointsScenario4,1,5,3,QB needs WR,None,Maximize PointsScenario5,1,5,4,None,None,Maximize PointsScenario6,1,5,4,QB needs WR,None,Maximize PointsScenario7,1,5,2,None,None,Maximize PointsScenario8,1,5,2,QB needs WR,None,Maximize PointsScenario9,1,5,3,None,None,Maximize PointsScenario10,1,5,3,QB needs WR,None,Maximize PointsScenario11,1,5,4,None,None,Maximize PointsScenario12,1,5,4,QB needs WR,None,Maximize PointsScenario13,1,5,2,None,None,Maximize PointsScenario14,1,5,2,QB needs WR,None,Maximize PointsScenario15,1,5,3,None,None,Maximize PointsScenario16,1,5,3,QB needs WR,None,Maximize PointsScenario17,1,5,4,None,None,Maximize PointsScenario18,1,5,4,QB needs WR,None,Maximize PointsScenario19,1,5,2,None,None,Maximize PointsScenario20,1,5,2,QB needs WR,None,Maximize PointsScenario21,1,5,3,None,None,Maximize PointsScenario22,1,5,3,QB needs WR,None,Maximize PointsScenario23,1,5,4,None,None,Maximize PointsScenario24,1,5,4,QB needs WR,None,Maximize PointsScenario25,1,5,2,None,None,Maximize PointsScenario26,1,5,2,QB needs WR,None,Maximize PointsScenario27,1,5,3,None,None,Maximize PointsScenario28,1,5,3,QB needs WR,None,Maximize PointsScenario29,1,5,4,None,None,Maximize PointsScenario30,1,5,4,QB needs WR,None,Maximize PointsScenario31,1,5,2,None,None,Maximize PointsScenario32,1,5,2,QB needs WR,None,Maximize PointsScenario33,1,5,3,None,None,Maximize PointsScenario34,1,5,3,QB needs WR,None,Maximize PointsScenario35,1,5,4,None,None,Maximize PointsScenario36,1,5,4,QB needs WR,None,Maximize PointsScenario37,1,5,2,None,None,Maximize PointsScenario38,1,5,2,QB needs WR,None,Maximize PointsScenario39,1,5,3,None,None,Maximize PointsScenario40,1,5,3,QB needs WR,None,Maximize PointsScenario41,1,5,4,None,None,Maximize PointsScenario42,1,5,4,QB needs WR,None,Maximize PointsScenario43,1,5,2,None,None,Maximize PointsScenario44,1,5,2,QB needs WR,None,Maximize PointsScenario45,1,5,3,None,None,Maximize PointsScenario46,1,5,3,QB needs WR,None,Maximize PointsScenario47,1,5,4,None,None,Maximize PointsScenario48,1,5,4,QB needs WR,None,Maximize PointsScenario49,1,5,2,None,None,Maximize PointsScenario50,1,5,2,QB needs WR,None,Maximize PointsScenario51,1,5,3,None,None,Maximize PointsScenario52,1,5,3,QB needs WR,None,Maximize PointsScenario53,1,5,4,None,None,Maximize PointsScenario54,1,5,4,QB needs WR,None,Maximize Points
