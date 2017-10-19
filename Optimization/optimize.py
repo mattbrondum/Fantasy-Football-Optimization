@@ -125,13 +125,13 @@ def optimize(scenario_parameters, projection_filepath,week_num):
             #print 'Iteration %d'% i
             #fileLP="NFL_X%d.lp"%i          
             #prob.writeLP(fileLP)
-            #optimization_result=pulp.actualSolve(prob)
+            optimization_result=prob.solve(solver=pulp.PULP_CBC_CMD())
             #solver=pulp.GUROBI()
             #prob.setSolver(solver)
-            optimization_result = prob.solve(pulp.GLPK(msg=False))
+            #optimization_result = prob.solve(pulp.GLPK(msg=False))
             #print "WOAHHH", pulp.LpStatusOptimal, optimization_result
             if optimization_result!=1:
-            	print "Solutions are infeasible, move on to next scneario"
+            	print "Solutions are infeasible, move on to next scenario"
             	break
 
             lineup=[]
@@ -239,27 +239,32 @@ def write_output(lineups, scenario_parameters, scenario, prob,week_num):
       #dfswriter.writerow(dfs_ids)
     target.close()
 
+
+
+
 #Initializiation
-df=pd.read_excel('../Input/Optimization Parameters Table Demo2.xlsx')
+df=pd.read_csv('../Input/fullfactorial.csv')
 scenario_parameters={}
 for scenario, row in df.iterrows():
-    Title=row['Title']
+    Title=row['Scenario']
     scenario_parameters[Title]={}
     scenario_parameters[Title]['Lineups']=row['Lineups']
-    scenario_parameters[Title]["Frequency"]=row[2]
-    scenario_parameters[Title]['Overlap']=row[3]
-    scenario_parameters[Title]['Stacking']=row[4]
-    scenario_parameters[Title]["Ownership"]=row[5]
-    scenario_parameters[Title]["Objective"]=row[6]
-# week_num=3
-# projection_filepath="../Input/LineupCO/Week%d_LU.csv" % week_num
+    scenario_parameters[Title]["Frequency"]=row['Frequency']
+    scenario_parameters[Title]['Overlap']=row['Overlap']
+    scenario_parameters[Title]['Stacking']=row['Stacking']
+    scenario_parameters[Title]["Ownership"]=row['Ownership']
+    scenario_parameters[Title]["Objective"]=row['ObjectiveFunction']
+print(scenario_parameters['Scenario54'])
 
-# optimize(scenario_parameters, projection_filepath, week_num)
+exit()
+# Run one week only
+week_num=7
+projection_filepath="../Input/LineupCO/Week%d_LU.csv" % week_num
+optimize(scenario_parameters, projection_filepath, week_num)
 
-##if for loop
-
-for i in range(1, 6):
-    print "on week %d" % i 
-    projection_filepath="../Input/LineupCO/Week%d_LU.csv" % i
-    optimize(scenario_parameters, projection_filepath, i)
+# Run multiple weeks at a time
+# for wk in range(6, 6):
+#     print "Current week: %d" % wk
+#     projection_filepath="../Input/LineupCO/Week%d_LU.csv" % wk
+#     optimize(scenario_parameters, projection_filepath, wk)
  

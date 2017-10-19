@@ -17,6 +17,7 @@ fullfact <- data.frame(   Scenario=character(),
                           ObjectiveFunction=character(),
                           stringsAsFactors=FALSE) 
 
+
 for (lineup in Lineups)
 {
   for (freq in Frequency)

@@ -1,4 +1,4 @@
-Id,Name,Position,Team,Salary,Projected,Scored,Override,Alerts
+Id,Name,Position,teamAbbrev,Salary,AvgPointsPerGame,Actual,Override,Alerts
 83684,Nelson Agholor,WR,PHI,4900,11.92,0,0,ExpectedStarter:1|PlayerMatchupIsHorribad:1|PlayerMatchupIsBad:1|ThumbUp:1
 83688,Stacy Coley,WR,MIN,3000,0,0,0,PlayerMatchupIsHorribad:1|PlayerMatchupIsBad:1
 83689,Josh McCown,QB,NYJ,5200,14.9,0,0,ExpectedStarter:1|PlayerMatchupIsGreat:1

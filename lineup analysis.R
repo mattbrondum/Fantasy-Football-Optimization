@@ -1,6 +1,6 @@
 library(readr)
 library(ggplot2)
-#library(plyr)
+library(plyr)
 
 # Load data 
 path = "C:/Users/Vicky/Desktop/Draft Kings/Github_DFS_Scripts/DFS_Scripts/Lineup Generations/"
@@ -36,22 +36,27 @@ qplot(Scenario, Actual, data=aggdata, geom=c("boxplot"),
       fill=Scenario, main="Fantasy Pts per Scenario",
       xlab="Scenario", ylab="Actual Fantasy Pts Scored")
 
-hist(subset(aggdata,wk==4)$Actual)
-
 cor.test(aggdata$`Projected Value`, aggdata$Actual)
+
+
+
 # Now for each scenario we calculate the following statistics
 #   - Average # of FPTS scored
 #   - % of lineups over N fpts
 #   - 90th percentile of FPTS 
 
-library(plyr)
+
+g <- group_by(aggdata, Scenario)
+avg_by_scen <- summarize(g,
+                avg_actual = mean(Actual), ninety_pct = quantile(Actual, .9))
+
+
 # Average # of FPTS scored
 ddply(aggdata$Actual, 'Scenario', mean)
 
 # % of lineups over N fpts
 
-
-?plot
+table(aggdata$wk, aggdata$Scenario)
 
 # 90th percentile of FPTS 
 
