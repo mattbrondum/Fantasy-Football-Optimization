@@ -2,15 +2,21 @@ import pulp
 import pandas as pd
 import re , csv
 from draftkings import *
+from multiprocessing import Process
 
 
+# scenario_parameters=scenario['scenario']
+# projection_filepath=scenario['filepath']
+# week_num=scenario['week']
 import time
 
-def optimize(scenario_parameters, projection_filepath,week_num):
-
-
-    for scenario in sorted(scenario_parameters.iterkeys()):
+def optimize(scenario_parameters, projection_filepath, week_num):
+   # scenario_parameters=scenario['scenario']
+   # projection_filepath=scenario['filepath']
+   # week_num=scenario['week'] 
+   for scenario in sorted(scenario_parameters.iterkeys()):
         scenario_name=scenario
+        #print scenario_name
         num_lineups=scenario_parameters[scenario]['Lineups']
         freq_limit=scenario_parameters[scenario]["Frequency"]
         overlap=scenario_parameters[scenario]['Overlap']
@@ -18,11 +24,11 @@ def optimize(scenario_parameters, projection_filepath,week_num):
         ownership_limit=scenario_parameters[scenario]['Ownership']
         objective_type=scenario_parameters[scenario]['Objective']
         
-        print "Starting optimization model"
-        print "----------------------------------"
-        print "Reading Data!"
+        # print "Starting optimization model"
+        # print "----------------------------------"
+        # print "Reading Data!"
         player_data=pd.read_csv(projection_filepath)
-        print objective_type
+        #print objective_type
         if "Maximize" in objective_type:
         	prob = pulp.LpProblem('NFL', pulp.LpMaximize)
         else:
@@ -51,7 +57,7 @@ def optimize(scenario_parameters, projection_filepath,week_num):
             team_constraints[team]={}
             team_constraints[team]['QB']=''
             team_constraints[team]['WR']=''
-        print "Building logic"
+        #print "Building logic"
         ownership_constraints={}
         ownership_constraints['L']=''
         expected_points_constraint=''
@@ -87,13 +93,13 @@ def optimize(scenario_parameters, projection_filepath,week_num):
         prob += pulp.lpSum(objective_function)
         
         if "Ownership" in objective_type:
-        	print "added here"
+        	#print "added here"
         	prob+=(expected_points_constraint>=100.0)
 
         prob += (total_cost<=50000)
         prob += (num_players==9)
         min_limits=[1, 2, 3, 1, 1]
-        print "Building Constraints,"
+        #print "Building Constraints,"
         #Actual stacking constraints
 
         if stacking=='QB Needs WR':
@@ -103,7 +109,8 @@ def optimize(scenario_parameters, projection_filepath,week_num):
             for team in team_constraints:
                 pass
         else:
-            print "NONE"
+            pass
+            #print "NONE"
 
         for i, position in enumerate(positions):
             if position =="QB" or position=="DST":
@@ -113,16 +120,16 @@ def optimize(scenario_parameters, projection_filepath,week_num):
                 prob+= (position_constraints[position]>=min_limits[i])
                 prob+= (position_constraints[position]<=min_limits[i]+1)
         lineups=[]
-        print "limit is ", ownership_limit, type(ownership_limit)
+        #print "limit is ", ownership_limit, type(ownership_limit)
         if ownership_limit !="None":
-        	print "adding ownership constraints"
+        	#print "adding ownership constraints"
         	prob+=(ownership_constraints["L"]<=ownership_limit)
         	prob+=(ownership_constraints["L"]>=ownership_limit)
         	#print ownership_constraints["L"]
  		    #prob+=(ownership_constraints["L"]=ownership_limit)
-        print "Writing Lineup"
+        #print "Writing Lineup"
         for i in range(1,num_lineups+1):
-            #print 'Iteration %d'% i
+            print '%s Iteration %d, week%d'% (scenario_name, i, week)
             #fileLP="NFL_X%d.lp"%i          
             #prob.writeLP(fileLP)
             optimization_result=prob.solve(solver=pulp.PULP_CBC_CMD())
@@ -254,13 +261,25 @@ for scenario, row in df.iterrows():
     scenario_parameters[Title]['Stacking']=row['Stacking']
     scenario_parameters[Title]["Ownership"]=row['Ownership']
     scenario_parameters[Title]["Objective"]=row['ObjectiveFunction']
-print(scenario_parameters['Scenario54'])
+#print(scenario_parameters['Scenario54'])
 
-exit()
+#exit()
 # Run one week only
 week_num=7
 projection_filepath="../Input/LineupCO/Week%d_LU.csv" % week_num
-optimize(scenario_parameters, projection_filepath, week_num)
+#optimize(scenario_parameters, projection_filepath, week_num)
+parameters=[]
+processes = []
+for week in range(1,6):
+	fp="../Input/LineupCO/Week%d_LU.csv" % week
+	p = Process(target=optimize, args=(scenario_parameters, fp, week))
+	p.start()
+	processes.append(p)
+for p in processes:
+	p.join()
+# print parameters
+# pool = ThreadPool(3)
+# pool.map(optimize, parameters)
 
 # Run multiple weeks at a time
 # for wk in range(6, 6):
