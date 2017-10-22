@@ -1,4 +1,4 @@
-Id,Name,Position,Team,Salary,Projected,Scored,Override,Alerts
+Id,Name,Position,teamAbbrev,Salary,AvgPointsPerGame,Actual,Override,Alerts
 81506,Colt McCoy,QB,WAS,4700,0,0,0,PlayerMatchupIsGood:2
 81512,Andre Ellington,RB,ARI,5300,11.59,0,0,ExpectedStarter:1|PlayerIsHot:1|StarGood:1|VegasBad:1
 81513,Kenny Britt,WR,CLE,4000,0,0,0,PlayerMatchupIsHorribad:1|Injured:1

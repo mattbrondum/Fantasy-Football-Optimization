@@ -32,7 +32,7 @@ for (lineup in Lineups)
           {
             fullfact[nrow(fullfact)+1, ] <- 
                 as.list(c(paste("Scenario",scen,sep=""), 
-                        lineup, freq, over, stack, own, obj))
+                        lineup, ceiling(freq*lineup), over, stack, own, obj))
             scen <- scen + 1
           }
         }  
