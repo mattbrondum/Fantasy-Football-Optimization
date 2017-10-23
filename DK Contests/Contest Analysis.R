@@ -49,14 +49,12 @@ quantile(filter(x, Scenario == scen & wk == w)[23], .9)
 
 # Percentiles by Scenario - Week
 by_scen_wk <- agg_lineup_data %>% group_by(Scenario, wk) %>%
-    summarise(`57%`=quantile(Actual, probs=0.57),
-            `71%`=quantile(Actual, probs=0.71),
+    summarise(`50%`=quantile(Actual, probs=0.5),
             `90%`=quantile(Actual, probs=0.9))
 
 # Percentiles by Scenario (across all weeks)
 by_scen <- agg_lineup_data %>% group_by(Scenario) %>%
-  summarise(`57%`=quantile(Actual, probs=0.57),
-            `71%`=quantile(Actual, probs=0.71),
+  summarise(`50%`=quantile(Actual, probs=0.5),
             `90%`=quantile(Actual, probs=0.9))
 
 
@@ -103,9 +101,13 @@ g2 <- ggplot(subset(profit_by_scenario,Multiplier != 'Quintuple'), aes(x = Multi
   geom_tile(aes(fill = Profit)) +
   scale_fill_gradient(low = 'red', high = 'green')+theme_bw()
 
+# avg points to win doubles / triples
+mean(subset(compdata, Multiplier == "Double")$Pts.to.Win)
+mean(subset(compdata, Multiplier == "Triple")$Pts.to.Win)
 
+#whats our median 
+quantile(subset(agg_lineup_data, Iteration < 100)$Actual, .5)
 
-
-
+hist(subset(agg_lineup_data, Iteration < 26)$Actual)
 
 

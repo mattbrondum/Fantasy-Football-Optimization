@@ -4,10 +4,10 @@ library(readr)
 library(ggplot2)
 
 #load data
-wrdata <- read_csv("C:/Users/Vicky/Desktop/Draft Kings/Github_DFS_Scripts/DFS_Scripts/data/wrdata.csv")
-rbdata <- read_csv("C:/Users/Vicky/Desktop/Draft Kings/Github_DFS_Scripts/DFS_Scripts/data/rbdata.csv")
-tedata <- read_csv("C:/Users/Vicky/Desktop/Draft Kings/Github_DFS_Scripts/DFS_Scripts/data/tedata.csv")
-qbdata <- read_csv("C:/Users/Vicky/Desktop/Draft Kings/Github_DFS_Scripts/DFS_Scripts/data/qbdata.csv")
+wrdata <- read_csv("C:\\Users\\Vicky\\Desktop\\Draft Kings\\Github_DFS_Scripts\\DFS_Scripts\\Predictions\\wrdata.csv")
+rbdata <- read_csv("C:\\Users\\Vicky\\Desktop\\Draft Kings\\Github_DFS_Scripts\\DFS_Scripts\\Predictions\\rbdata.csv")
+tedata <- read_csv("C:\\Users\\Vicky\\Desktop\\Draft Kings\\Github_DFS_Scripts\\DFS_Scripts\\Predictions\\tedata.csv")
+qbdata <- read_csv("C:\\Users\\Vicky\\Desktop\\Draft Kings\\Github_DFS_Scripts\\DFS_Scripts\\Predictions\\qbdata.csv")
 
 
 
@@ -20,21 +20,31 @@ wrtest <- wrdata[-train_ind,]
 wr.rf = randomForest(fpts ~ .
                      ,data = wrtrain
                      ,importance = TRUE
-                     ,ntree = 60)
+                     ,ntree = 30)
 
 plot(wrtrain$fpts, wr.rf$predicted)
-sqrt(mean(wr.rf$mse))
+mean(wr.rf$mse)
 
 # plot MSE and RSQ
 plot(wr.rf$mse)
 plot(wr.rf$rsq)
 
+
 # Plot test predictions
 varImpPlot(wr.rf)
 res <- predict(wr.rf, wrtest)
-plot(res,wrtest$fpts)
+plot(res,wrtest$fpts     
+     ,xlab = "Random Forest Predicted (fpts)"
+     ,ylab = "Actual Fantasy Points Scored"
+     ,xlim = c(5,50)
+     ,ylim = c(5,50))
 
 
+newx <- seq(min(wrtest$fpts), max(wrtest$fpts), length.out=100)
+preds <- predict(wr.rf, newdata = wrtest, 
+                 interval = 'confidence')
+
+polygon(c(rev(newx), newx), c(rev(preds[ ,3]), preds[ ,2]), col = 'grey80', border = NA)
 
 
 
