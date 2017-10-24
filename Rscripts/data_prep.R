@@ -32,7 +32,7 @@ where 1=1
   and pos1 in ("QB","WR","RB","TE")
   and fp3 > 
         (case when pos = "QB" then 10
-              when pos = "WR" then 10
+              when pos = "WR" then 1
               when pos = "RB" then  7
               else 5 end) 
 ),
@@ -160,7 +160,7 @@ left join def_gm dg on dg.wk < pd.wk
                       and dg.tm = pd.opponent
 where l5g_avg_fpts > 
         (case when pos = "QB" then 10
-              when pos = "WR" then 10
+              when pos = "WR" then 1
               when pos = "RB" then  7
               else 5 end) 
 group by 1,2,3,4,5,6,7,8,9,10
@@ -170,7 +170,7 @@ group by 1,2,3,4,5,6,7,8,9,10
         ,41,42,43,44.45
 order by pd.player, pd.gid
       ')
-table(data$pos)
+
 
 # fix cond 
 data$cond <-as.numeric(data$cond)
