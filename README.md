@@ -57,7 +57,9 @@ We developed this model in Python using the [PuLP package](https://pythonhosted.
 Before we talk about how many points we scored, it would be nice to know what we should want to break even on our investment. Draft Kings has a bunch of different contests and names them to confuse players (or so we think...). These contest types are 50-50's, multipliers, and GPP's. They differ in payout structure which is extremely important because it impacts our risk profile as well as the metrics we'll use to estimate our profitability. 
 * 50-50's payout 2X their buy-in to the top 43% of players
 * Triple-Ups pay out 3X their buy-in to the top 27% of players
-* GPP's have a very high payout structure, often giving 75% of their payout to the top 5%
+* GPP's have a very high payout structure, often giving 75% of their payout to the top 5%  
+
+Graphically, this is what I am trying to say!
 ![alt text](/Graphics/contest_breakdown.png)
 
 With 50-50's any lineup that scores above the 43rd percentile will payout 2X buy-in, so we really want to measure what percent of our lineups are above that threshold. Triple-Ups are similar, except we'll see how many lineups fall above the 27th percentile score and consider our earnings 2X buy-in. With GPP's we want to focus on our max score or our 95th percentile because getting just a few lineups in the money will be huge $$$ for us. 
