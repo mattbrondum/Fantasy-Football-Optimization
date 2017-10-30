@@ -68,9 +68,10 @@ RESULTS IN PROGRESS
 
 ## Future Work
 Some concepts we haven't looked into yet but would like to test integration with:
-* Developing our own predictions: better 
-* Player ownership: you can't win GPP's with a lineup of players that everyone else owns!
-* Floor/ceiling predictions: some players may be consistent producers while others may be boom or bust. At first glance this looks like it has potential considering that there appear to be certain players 
+* **Improving predictions:** Models are only as good as the data we feed into them and right now we are feeding pretty terrible predictions into ours. We have tested our model on different publicized projection sites and none seem to be very good. We actually attempted our own predictions using random forests with little success. Check out the [Predictions folder](https://github.com/mattbrondum/DFS_Scripts/tree/master/Predictions)) if you're curious to see what we did.   
+* **Player ownership:** You can't win GPP's with a lineup of players that everyone else owns! It wouldn't be hard to find a simple proxy for ownership percentages and set constraints on the model to set thresholds on maximum player ownership (i.e. at most 2 highly owned players).  
+* **Floor/ceiling predictions:** some players may be consistent producers while others may be boom or bust. At first glance this looks like it has potential considering that there appear to be certain players with high average production value and assorted levels of variance (standard deviation). 
+
 ![alt text](/Graphics/avg_vs_stdev.png)
 
 
