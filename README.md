@@ -22,17 +22,18 @@ We have decided to focus on the NFL for now due to the highly unpredictable natu
 	* *Xi = 0 otherwise*     
 * The total sum of all salaries (S_i) for chosen players is constrained to a budget (*B*)  
 *  The lineup must adhere to DraftKings position constraints  
-	![alt text](/Graphics/lineupreqs.png "Source: www.draftkings.com")
+![alt text](/Graphics/lineupreqs.png "Source: www.draftkings.com")
 * It is common in fantasy football to stack quarter backs and wide receivers that are on the same team. This has to do with their point production correlation. We can acheive through adding a constraint for each team such that the number of WR's >= QB's. 
-In mathematical notation this model looks like:
+
+In mathematical notation, what we have so far looks like:
 
 ![alt text](/Graphics/basic_model_formulation.png)  
   
-All of our data so far come right from DraftKings except the expected number of points for each player (our p_i’s). Expected points could come from any projections website such as Yahoo, FantasySharks,  Rotogrinders, etc. A quick sanity check by plotting projected points scored versus actual points scored shows us just how unpredictable this game is:  
+All of our data so far come right from DraftKings except the expected number of points for each player (our *f_i*’s). Expected points could come from any projections website such as Yahoo, FantasySharks,  Rotogrinders, etc. A quick sanity check by plotting projected points scored versus actual points scored shows us just how unpredictable this game is:  
 
 ![alt text](/Graphics/predicted_versus_actual.png)
   
-So by solving the problem above, we could get one sub-optimal solution and enter that weekly hoping we get lucky. Instead of waiting for our big break, a smarter thing to do would be to re-solve this problem a bunch of times (let's call this M), adding a constraint to the model each time that says the new solution must have an objective function lower than the previous solution. This is of course a pretty cheap way of forcing our lineup to change, but for now it's easy to integrate:
+So by solving the problem above, we could get one (most likely) sub-optimal solution and enter that weekly hoping we get lucky. Instead of waiting for our big break, a smarter thing to do would be to re-solve this problem a bunch of times (let's call this M), adding a constraint to the model each time that says the new solution must have an objective function lower than the previous solution. This is of course a pretty cheap way of forcing our lineup to change, but for now it's easy to integrate:
 	
 ![alt text](/Graphics/improved_model_formulation.png)
 
