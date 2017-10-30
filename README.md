@@ -76,11 +76,11 @@ Some concepts we haven't looked into yet but would like to test integration with
 
 ## Who We Are
 **Matt Brondum**  
-Matt loves everything data and nothing about professional sports. He holds a M.Eng. from Cornell University in Operations Research as well as a B.S. in Industrial Engineering from SUNY University at Buffalo. 
+Matt loves everything data and nothing about professional sports. He holds a M.Eng. from Cornell University in Operations Research as well as a B.S. in Industrial Engineering from SUNY University at Buffalo.    
 *www.linkedin.com/in/matthewbrondum*    
 
 **Kyle Cunningham**  
-Aside from being the Buffalo Bills #1 Fan, Kyle is a Junior Analytics Consultant at GE Healthcare. Kyle holds a B.S. in Industrial Engineering from SUNY University at Buffalo and an M.S. in Operations Research from Northeastern University.    
+Aside from being the Buffalo Bills #1 Fan, Kyle is a Junior Analytics Consultant at GE Healthcare. Kyle holds a B.S. in Industrial Engineering from SUNY University at Buffalo and an M.S. in Operations Research from Northeastern University.      
 *www.linkedin.com/in/kyle-cunningham-62012383*  
 
 **Sakib Alam**  
