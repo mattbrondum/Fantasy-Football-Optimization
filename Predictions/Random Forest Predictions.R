@@ -10,17 +10,16 @@ tedata <- read_csv("C:\\Users\\Vicky\\Desktop\\Draft Kings\\Github_DFS_Scripts\\
 qbdata <- read_csv("C:\\Users\\Vicky\\Desktop\\Draft Kings\\Github_DFS_Scripts\\DFS_Scripts\\Predictions\\qbdata.csv")
 
 
-
 #wr predictions
 set.seed(123)
 samplesize <- floor(.75*nrow(wrdata)) 
 train_ind <- sample(seq_len(nrow(wrdata)), size = samplesize)
-wrtrain <- wrdata[train_ind,]
-wrtest <- wrdata[-train_ind,] 
+wrtrain <- wrdata[train_ind,c(1,8:13)]
+wrtest <- wrdata[-train_ind,c(1,8:13)] 
 wr.rf = randomForest(fpts ~ .
                      ,data = wrtrain
                      ,importance = TRUE
-                     ,ntree = 30)
+                     ,ntree = 100)
 
 plot(wrtrain$fpts, wr.rf$predicted)
 mean(wr.rf$mse)
@@ -43,8 +42,6 @@ plot(res,wrtest$fpts
 newx <- seq(min(wrtest$fpts), max(wrtest$fpts), length.out=100)
 preds <- predict(wr.rf, newdata = wrtest, 
                  interval = 'confidence')
-
-polygon(c(rev(newx), newx), c(rev(preds[ ,3]), preds[ ,2]), col = 'grey80', border = NA)
 
 
 
