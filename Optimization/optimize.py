@@ -10,7 +10,7 @@ from multiprocessing import Process
 # week_num=scenario['week']
 import time
 
-def optimize(scenario_parameters, projection_filepath, week_num):
+def optimize(scenario_parameters, projection_filepath, week):
    # scenario_parameters=scenario['scenario']
    # projection_filepath=scenario['filepath']
    # week_num=scenario['week'] 
@@ -265,25 +265,25 @@ for scenario, row in df.iterrows():
 
 #exit()
 # Run one week only
-week_num=7
-projection_filepath="../Input/LineupCO/Week%d_LU.csv" % week_num
-#optimize(scenario_parameters, projection_filepath, week_num)
-parameters=[]
-processes = []
-for week in range(1,6):
-	fp="../Input/LineupCO/Week%d_LU.csv" % week
-	p = Process(target=optimize, args=(scenario_parameters, fp, week))
-	p.start()
-	processes.append(p)
-for p in processes:
-	p.join()
+# week_num=7
+# projection_filepath="../Input/LineupCO/Week%d_LU.csv" % week_num
+# #optimize(scenario_parameters, projection_filepath, week_num)
+# parameters=[]
+# processes = []
+# for week in range(1,6):
+# 	fp="../Input/LineupCO/Week%d_LU.csv" % week
+# 	p = Process(target=optimize, args=(scenario_parameters, fp, week))
+# 	p.start()
+# 	processes.append(p)
+# for p in processes:
+# 	p.join()
 # print parameters
 # pool = ThreadPool(3)
 # pool.map(optimize, parameters)
 
 # Run multiple weeks at a time
-# for wk in range(6, 6):
-#     print "Current week: %d" % wk
-#     projection_filepath="../Input/LineupCO/Week%d_LU.csv" % wk
-#     optimize(scenario_parameters, projection_filepath, wk)
+for wk in range(1, 2):
+    print "Current week: %d" % wk
+    projection_filepath="../Input/LineupCO/Week%d_LU.csv" % wk
+    optimize(scenario_parameters, projection_filepath, wk)
  
