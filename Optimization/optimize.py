@@ -101,14 +101,18 @@ def optimize(scenario_parameters, projection_filepath, week):
         min_limits=[1, 2, 3, 1, 1]
         #print "Building Constraints,"
         #Actual stacking constraints
-
-        if stacking=='QB Needs WR':
+        print "before constraint added", stacking, type(stacking)
+        print "%sx" %stacking
+        if stacking=='QB needs WR':
+            print "in here"
             for team in team_constraints:
                 prob += (team_constraints[team]['QB'] <=team_constraints[team]['WR'])
         elif stacking=='Forced Unconstrained':
+            print "in here?"
             for team in team_constraints:
                 pass
         else:
+            print "oh no , no stacking used", stacking
             pass
             #print "NONE"
 
@@ -170,7 +174,7 @@ def optimize(scenario_parameters, projection_filepath, week):
      
  
 
-        write_output(lineups, scenario_parameters, scenario,prob,week_num)
+        write_output(lineups, scenario_parameters, scenario,prob,week)
 
 def write_output(lineups, scenario_parameters, scenario, prob,week_num):
     #Writes lineups to csv
