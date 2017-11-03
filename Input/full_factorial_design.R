@@ -1,6 +1,6 @@
 # Create full factorial using lists
 
-Lineups   <-  c(25, 50, 75)
+Lineups   <-  c(200)
 Frequency <-  c(.05,.1,.25)
 Overlap   <-  c(2,3,4)
 Stacking  <-  c("None", "QB needs WR")
@@ -42,6 +42,6 @@ for (lineup in Lineups)
 }
 
 
-write.table(fullfact, "C:\\Users\\Vicky\\Desktop\\Draft Kings\\Github_DFS_Scripts\\DFS_Scripts\\Input\\fullfactorial.csv"
+write.table(fullfact, "C:\\Users\\Vicky\\Desktop\\Draft Kings\\Github_DFS_Scripts\\Fantasy-Football-Optimization\\Input\\fullfactorial.csv"
               ,row.names=FALSE, sep=",")
 

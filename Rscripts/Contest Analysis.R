@@ -5,19 +5,20 @@ library(sqldf)
 
 
 #load in lineup output as a data frame
-wks <- 6
+wks <- 7
 agg_lineup_data <- data.frame()
 
 for (wk in 1:wks) 
   {
-  lineupdata <- read_csv(paste("C:/Users/Vicky/Desktop/Draft Kings/Github_DFS_Scripts/DFS_Scripts/Lineup Generations/PredictionsWeek",wk,".csv",sep=""))
+  lineupdata <- read_csv(paste("C:/Users/Vicky/Desktop/Draft Kings/Github_DFS_Scripts/Fantasy-Football-Optimization/Lineup Generations/PredictionsWeek", wk, ".csv",sep=""))
   lineupdata <- cbind(wk,lineupdata[complete.cases(lineupdata),])
   agg_lineup_data <- bind_rows(agg_lineup_data,lineupdata)
-}
+  }
 rm(lineupdata)
 
+
 # Load in contest data and format
-compdata <- read.xlsx("C:/Users/Vicky/Desktop/Draft Kings/Github_DFS_Scripts/DFS_Scripts/DK Contests/DK 2017 Weeks 1-6 Contest Results/Contest Results Master.xlsx", 1)
+compdata <- read.xlsx("C:/Users/Vicky/Desktop/Draft Kings/Github_Fantasy-Football-Optimization/Fantasy-Football-Optimization/DK Contests/DK 2017 Weeks 1-6 Contest Results/Contest Results Master.xlsx", 1)
 compdata <- compdata[complete.cases(compdata),]
 compdata[7] <- ifelse(grepl("double",tolower(compdata$Contest.Name)),"Double",
                       ifelse(grepl("triple",tolower(compdata$Contest.Name)),"Triple",

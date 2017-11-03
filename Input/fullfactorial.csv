@@ -1,1 +1,19 @@
-Scenario,Lineups,Frequency,Overlap,Stacking,Ownership,ObjectiveFunctionScenario1,25,2,2,None,None,Maximize PointsScenario2,25,2,2,QB needs WR,None,Maximize Points
+"Scenario","Lineups","Frequency","Overlap","Stacking","Ownership","ObjectiveFunction"
+"Scenario1","200","10","2","None","None","Maximize Points"
+"Scenario2","200","10","2","QB needs WR","None","Maximize Points"
+"Scenario3","200","10","3","None","None","Maximize Points"
+"Scenario4","200","10","3","QB needs WR","None","Maximize Points"
+"Scenario5","200","10","4","None","None","Maximize Points"
+"Scenario6","200","10","4","QB needs WR","None","Maximize Points"
+"Scenario7","200","20","2","None","None","Maximize Points"
+"Scenario8","200","20","2","QB needs WR","None","Maximize Points"
+"Scenario9","200","20","3","None","None","Maximize Points"
+"Scenario10","200","20","3","QB needs WR","None","Maximize Points"
+"Scenario11","200","20","4","None","None","Maximize Points"
+"Scenario12","200","20","4","QB needs WR","None","Maximize Points"
+"Scenario13","200","50","2","None","None","Maximize Points"
+"Scenario14","200","50","2","QB needs WR","None","Maximize Points"
+"Scenario15","200","50","3","None","None","Maximize Points"
+"Scenario16","200","50","3","QB needs WR","None","Maximize Points"
+"Scenario17","200","50","4","None","None","Maximize Points"
+"Scenario18","200","50","4","QB needs WR","None","Maximize Points"

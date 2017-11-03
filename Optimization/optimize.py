@@ -100,15 +100,13 @@ def optimize(scenario_parameters, projection_filepath, week):
         prob += (num_players==9)
         min_limits=[1, 2, 3, 1, 1]
         #print "Building Constraints,"
-        #Actual stacking constraints
-        print "before constraint added", stacking, type(stacking)
+
+        #Stacking constraints created
         print "%sx" %stacking
         if stacking=='QB needs WR':
-            print "in here"
             for team in team_constraints:
                 prob += (team_constraints[team]['QB'] <=team_constraints[team]['WR'])
         elif stacking=='Forced Unconstrained':
-            print "in here?"
             for team in team_constraints:
                 pass
         else:
@@ -286,7 +284,7 @@ for scenario, row in df.iterrows():
 # pool.map(optimize, parameters)
 
 # Run multiple weeks at a time
-for wk in range(1, 2):
+for wk in range(1, 8):
     print "Current week: %d" % wk
     projection_filepath="../Input/LineupCO/Week%d_LU.csv" % wk
     optimize(scenario_parameters, projection_filepath, wk)
