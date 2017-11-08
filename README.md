@@ -58,6 +58,7 @@ Before we talk about how many points we scored, it would be nice to know what we
 * GPP's have a very high payout structure, often giving 75% of their payout to the top 5%  
 
 Graphically, this looks like: 
+
 ![alt text](/Graphics/contest_breakdown.png)
 
 With 50-50's any lineup that scores above the 43rd percentile will payout 2X buy-in, so we really want to measure what percent of our lineups are above that threshold. Triple-Ups are similar, except we see how many lineups fall above the 27th percentile score and consider our earnings 2X buy-in. With GPP's we want to focus on our max score or our 95th percentile because getting just a few lineups in the money will be huge $$$ for us. 
@@ -65,7 +66,9 @@ With 50-50's any lineup that scores above the 43rd percentile will payout 2X buy
 We collected data on the first 6 weeks of the 2017 season across these contest types and computed profitability using R (/rscripts/contest analysis.R). Unfortunately, none of the scenarios appear to be profitable in multiplier type tournaments. This is most likely due to the fact that we are essentially feeding noise into it because predictions are so poor. 
 
 We can see below that there were actually a few lineups above 195, which tends to be the number of points needed to score big in GPP tournaments.
+
 ![alt text](/Graphics/dk_dash.png)
+
 For example, Scenario 6 (QB-WR stacking, 5% player frequency, 4 player overlap, 25 lineups) would have scored 3rd place out of 2408 entries in a $25k Hail Mary contest. Scenario 14 (QB-WR stacking, 25% player frequency, 4 player overlap, 25 lineups) generated 4 lineups over 195 points across multiple weeks, which is quite remarkable considering this would have payed out $750 on a $12 buy in.   
 
 Another interesting way to look at this data is to consider the lineup iteration with respect to the number of lineups that scored big (let's say 150 fpts). We can visualize this as a heat map in Tableau very easily, in order to determine the optimal cutoff for the number of iterations to use. 
@@ -77,6 +80,7 @@ Some concepts we haven't looked into yet but would like to test integration with
 * **Improving predictions:** Models are only as good as the data we feed into them and right now we are feeding pretty terrible predictions into ours. We have tested our model on different publicized projection sites and none seem to be very good. We actually attempted our own predictions using random forests with little success. Check out the [Predictions folder](https://github.com/mattbrondum/DFS_Scripts/tree/master/Predictions)) if you're curious to see what we did.   
 * **Player ownership:** You can't win GPP's with a lineup of players that everyone else owns! It wouldn't be hard to find a simple proxy for ownership percentages and set constraints on the model to set thresholds on maximum player ownership (i.e. at most 2 highly owned players).  
 * **Floor/ceiling predictions:** some players may be consistent producers while others may be boom or bust. At first glance this looks like it has potential considering that there appear to be certain players with high average production value and assorted levels of variance (standard deviation). 
+
 
 ![alt text](/Graphics/avg_vs_stdev.png)
 
